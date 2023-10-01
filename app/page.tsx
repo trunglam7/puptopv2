@@ -5,8 +5,13 @@ import { useState } from "react";
 import ConvexClientProvider from "./components/ConvexClientProvider";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoginButton from "./components/LoginButton";
+import styles from "./page.module.css"
+import Header from "./components/Header";
+import Login from "./components/Login";
 
 export default function Home() {
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const [taskName, setTaskName] = useState('');
   const tasks = useQuery(api.tasks.get);
@@ -26,21 +31,34 @@ export default function Home() {
     updateTask({id: taskId})
   }
 
+  const authenticateUser = () => {
+    setIsAuthenticated(true);
+  }
+
+  const logoutHandler = () => {
+    setIsAuthenticated(false);
+  }
   
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {tasks?.map(({ _id, text }) => (
-        <div key={_id}>
-          <div>{text}</div>
-          <button onClick={() => finishTaskHandler(_id)}>Finish</button>
-          <button onClick={() => deleteTaskHandler(_id)}>Delete</button>
-        </div>
-      ))}
-      <input placeholder="Task Name" onChange={e => setTaskName(e.target.value)}/>
-      <button onClick={addTaskHandler}>Add Task</button>
-      <div>
-        <LoginButton />
-      </div>
-    </main>
+    isAuthenticated ? 
+    <>
+      <Header logout={logoutHandler}/>
+      <main>
+        {/* {tasks?.map(({ _id, text }) => (
+          <div key={_id}>
+            <div>{text}</div>
+            <button onClick={() => finishTaskHandler(_id)}>Finish</button>
+            <button onClick={() => deleteTaskHandler(_id)}>Delete</button>
+          </div>
+        ))}
+        <input placeholder="Task Name" onChange={e => setTaskName(e.target.value)}/>
+        <button onClick={addTaskHandler}>Add Task</button>
+        <div>
+          <LoginButton />
+        </div> */}
+      </main>
+    </> :
+    <Login authenticate={authenticateUser}/>
+    
   );
 }

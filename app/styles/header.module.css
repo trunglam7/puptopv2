@@ -1,0 +1,27 @@
+.header{
+    background-color: #009eff;
+    padding: 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app_name{
+    color: white;
+}
+
+.menu_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    padding: 1rem;
+}
+
+.menu_top{
+    display: grid;
+}
