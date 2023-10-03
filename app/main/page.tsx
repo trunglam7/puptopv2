@@ -7,6 +7,7 @@ import styles from './page.module.css'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useConvexAuth } from "convex/react";
 import { useRouter } from 'next/navigation';
+import { SignInButton } from '@clerk/clerk-react';
 
 export default function Main() {
 
@@ -23,14 +24,14 @@ export default function Main() {
 
     return (
         <ThemeProvider theme={mainTheme}>
-            {isAuthenticated && 
+            {isAuthenticated ? 
                 <>
                     <Header />
                     <main className={styles.main}>
                         main
                     </main>
                     <Footer />
-                </>
+                </> : <SignInButton afterSignInUrl="/main" mode="modal" />
             }    
         </ThemeProvider>
     )

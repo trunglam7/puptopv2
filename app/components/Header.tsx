@@ -5,9 +5,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, Drawer } from '@mui/material';
-import { useAuth0 } from '@auth0/auth0-react';
-import { SignOutButton, UserButton, useClerk } from "@clerk/nextjs";
-import { SignedOut, RedirectToSignIn } from '@clerk/nextjs';
+import { useClerk } from "@clerk/nextjs";
 import { useRouter } from 'next/navigation'
 
 export default function Header() {

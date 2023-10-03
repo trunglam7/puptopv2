@@ -2,12 +2,10 @@ import { Button } from '@mui/material'
 import styles from '../styles/login.module.css'
 import React from 'react'
 import DogCardTemplate from './DogCardTemplate'
+import { SignUpButton } from '@clerk/clerk-react'
 
-interface LoginProps {
-    authenticate: any
-}
 
-export default function Login({authenticate} : LoginProps) {
+export default function Login() {
 
     const buttonSx = {
         color: 'white'
@@ -17,7 +15,7 @@ export default function Login({authenticate} : LoginProps) {
         <div className={styles.login_container}>
             <div className={styles.login_side}>
                 <h1>PupTop</h1>
-                <Button variant='contained' sx={buttonSx} onClick={() => authenticate()}>Log In or Sign Up</Button>
+                <SignUpButton mode='modal'/>
             </div>
         </div>
     )
