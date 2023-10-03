@@ -37,18 +37,6 @@ export default function Header({logout} : HeaderProps) {
                     <div className={styles.menu_top}>
                         <Button>
                             <div className={styles.menu_btn}>
-                                <LeaderboardIcon />
-                                <p>Leaderboard</p>
-                            </div>
-                        </Button>
-                        <Button>
-                            <div className={styles.menu_btn}>
-                                <PetsIcon />
-                                <p>Your Dogs</p>
-                            </div>
-                        </Button>
-                        <Button>
-                            <div className={styles.menu_btn}>
                                 <SettingsIcon />
                                 <p>Settings</p>
                             </div>

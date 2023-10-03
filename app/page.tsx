@@ -9,6 +9,7 @@ import styles from "./page.module.css"
 import Header from "./components/Header";
 import Login from "./components/Login";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Footer from "./components/Footer";
 
 
 export default function Home() {
@@ -69,6 +70,7 @@ export default function Home() {
             </div> */}
             Main
           </main>
+          <Footer />
         </> :
         <Login authenticate={authenticateUser}/>}
     </ThemeProvider>
