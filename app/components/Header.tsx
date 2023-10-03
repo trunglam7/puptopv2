@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import styles from '../styles/header.module.css'
 import MenuIcon from '@mui/icons-material/Menu';
-import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-import PetsIcon from '@mui/icons-material/Pets';
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, Drawer } from '@mui/material';
 
