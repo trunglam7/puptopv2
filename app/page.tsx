@@ -10,12 +10,16 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Footer from "./components/Footer";
+import { SignInButton } from "@clerk/clerk-react";
+import { useRouter } from 'next/navigation'
 
 
 export default function Home() {
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [taskName, setTaskName] = useState('');
+  // const { loginWithPopup } = useAuth0();
+
+  // const [authenticate, setAuthenticate] = useState(false);
+  
 
   const mainTheme = createTheme({
     palette: {
@@ -25,54 +29,9 @@ export default function Home() {
     }
   });
 
-  const tasks = useQuery(api.tasks.get);
-  const createTask = useMutation(api.tasks.createTask);
-  const deleteTask = useMutation(api.tasks.deleteTask);
-  const updateTask = useMutation(api.tasks.updateTask);
-
-  const addTaskHandler = () => {
-    createTask({isCompleted: false, text: taskName});
-  }
-
-  const deleteTaskHandler = (taskId : any) => {
-    deleteTask({id: taskId});
-  }
-
-  const finishTaskHandler = (taskId : any) => {
-    updateTask({id: taskId})
-  }
-
-  const authenticateUser = () => {
-    setIsAuthenticated(true);
-  }
-
-  const logoutHandler = () => {
-    setIsAuthenticated(false);
-  }
-  
   return (
     <ThemeProvider theme={mainTheme}>
-      {isAuthenticated ? 
-        <>
-          <Header logout={logoutHandler}/>
-          <main className={styles.main}>
-            {/* {tasks?.map(({ _id, text }) => (
-              <div key={_id}>
-                <div>{text}</div>
-                <button onClick={() => finishTaskHandler(_id)}>Finish</button>
-                <button onClick={() => deleteTaskHandler(_id)}>Delete</button>
-              </div>
-            ))}
-            <input placeholder="Task Name" onChange={e => setTaskName(e.target.value)}/>
-            <button onClick={addTaskHandler}>Add Task</button>
-            <div>
-              <LoginButton />
-            </div> */}
-            Main
-          </main>
-          <Footer />
-        </> :
-        <Login authenticate={authenticateUser}/>}
+        <SignInButton afterSignInUrl="/main" mode="modal" />
     </ThemeProvider>
     
   );

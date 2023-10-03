@@ -5,14 +5,17 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, Drawer } from '@mui/material';
+import { useAuth0 } from '@auth0/auth0-react';
+import { SignOutButton, UserButton, useClerk } from "@clerk/nextjs";
+import { SignedOut, RedirectToSignIn } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation'
 
-interface HeaderProps {
-    logout: any
-}
+export default function Header() {
 
-export default function Header({logout} : HeaderProps) {
+    const router = useRouter();
 
     const [toggleMenu, setToggleMenu] = useState(false);
+    const { signOut } = useClerk();
 
     const openMenu = () => {
         setToggleMenu(true);
@@ -20,6 +23,11 @@ export default function Header({logout} : HeaderProps) {
 
     const closeMenu = () => {
         setToggleMenu(false);
+    }
+
+    const handleSignOut = () => {
+        signOut();
+        router.push('/');
     }
 
     return (
@@ -39,10 +47,10 @@ export default function Header({logout} : HeaderProps) {
                                 <p>Settings</p>
                             </div>
                         </Button>
-                        <Button onClick={() => logout()}>
+                        <Button onClick={handleSignOut}>
                             <div className={styles.menu_btn}>
                                 <LogoutIcon />
-                                <p>Logout</p>
+                                <p>Log Out</p>
                             </div>
                         </Button>
                     </div>
