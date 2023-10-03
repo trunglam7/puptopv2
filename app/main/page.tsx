@@ -32,7 +32,7 @@ export default function Main() {
                     </main>
                     <Footer />
                 </> : <SignInButton afterSignInUrl="/main" mode="modal" />
-            }    
+            }
         </ThemeProvider>
     )
 }
