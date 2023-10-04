@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from '../styles/votingplatform.module.css'
 import DogCard from './DogCard'
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
@@ -36,8 +36,7 @@ export default function VotingPlatform() {
                 </Button>
                 <Button sx={rightVotingBtnSx} variant='outlined'>
                     <FavoriteIcon sx={{fontSize: '2rem'}}/>
-                </Button>
-                
+                </Button>   
             </div>
         </div>
     )
