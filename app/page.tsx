@@ -1,25 +1,19 @@
 "use client";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "../convex/_generated/api";
-import { useState } from "react";
-import ConvexClientProvider from "./components/ConvexClientProvider";
-import { useAuth0 } from "@auth0/auth0-react";
-import LoginButton from "./components/LoginButton";
+import { useConvexAuth, useMutation, useQuery } from "convex/react";
 import styles from "./page.module.css"
 import Header from "./components/Header";
 import Login from "./components/Login";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Footer from "./components/Footer";
-import { SignInButton } from "@clerk/clerk-react";
-import { useRouter } from 'next/navigation'
+import { SignInButton, useClerk } from "@clerk/clerk-react";
+import { Button, CircularProgress } from "@mui/material";
+import Loading from "./components/Loading";
 
 
 export default function Home() {
 
-  // const { loginWithPopup } = useAuth0();
-
-  // const [authenticate, setAuthenticate] = useState(false);
-  
+  const { openSignIn } = useClerk();
+  const { isLoading, isAuthenticated } = useConvexAuth();
 
   const mainTheme = createTheme({
     palette: {
@@ -31,8 +25,15 @@ export default function Home() {
 
   return (
     <ThemeProvider theme={mainTheme}>
-        <SignInButton afterSignInUrl="/main" mode="modal" />
+        {isAuthenticated ? 
+            <>
+                <Header />
+                <main className={styles.main}>
+                    main
+                </main>
+                <Footer />
+            </> : isLoading ? <Loading /> : <Login signIn={openSignIn}/>
+        }
     </ThemeProvider>
-    
-  );
+)
 }

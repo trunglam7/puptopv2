@@ -2,20 +2,34 @@ import { Button } from '@mui/material'
 import styles from '../styles/login.module.css'
 import React from 'react'
 import DogCardTemplate from './DogCardTemplate'
-import { SignUpButton } from '@clerk/clerk-react'
+import { SignUpButton, useClerk } from '@clerk/clerk-react'
+import { useRouter } from 'next/navigation'
+import { useConvexAuth } from 'convex/react'
+
+interface LoginProps {
+    signIn: any
+}
 
 
-export default function Login() {
+export default function Login({signIn} : LoginProps) {
+
+    const router = useRouter();
+    const {isAuthenticated, isLoading} = useConvexAuth();
+    const {redirectToHome} = useClerk();
 
     const buttonSx = {
         color: 'white'
     };
 
+    const handleLogin = async (e: any) => {
+        signIn();
+    }
+
     return (
         <div className={styles.login_container}>
             <div className={styles.login_side}>
                 <h1>PupTop</h1>
-                <SignUpButton mode='modal'/>
+                <Button sx={buttonSx} onClick={handleLogin} variant='contained'>Sign In or Sign Up</Button>
             </div>
         </div>
     )

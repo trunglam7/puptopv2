@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from '../styles/header.module.css'
 import MenuIcon from '@mui/icons-material/Menu';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -7,13 +7,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Button, Drawer } from '@mui/material';
 import { useClerk } from "@clerk/nextjs";
 import { useRouter } from 'next/navigation'
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
 export default function Header() {
 
     const router = useRouter();
 
     const [toggleMenu, setToggleMenu] = useState(false);
-    const { signOut } = useClerk();
+    const { signOut, user } = useClerk();
 
     const openMenu = () => {
         setToggleMenu(true);
@@ -25,8 +26,13 @@ export default function Header() {
 
     const handleSignOut = () => {
         signOut();
-        router.push('/');
     }
+
+    const handleDeleteAccount = () => {
+        user?.delete().then(() => signOut())
+            .catch(err => console.log("Unable to delete account:", err));
+    }
+
 
     return (
         <header className={styles.header}>
@@ -39,20 +45,19 @@ export default function Header() {
             >
                 <div className={styles.menu_container}>
                     <div className={styles.menu_top}>
-                        <Button>
-                            <div className={styles.menu_btn}>
-                                <SettingsIcon />
-                                <p>Settings</p>
-                            </div>
-                        </Button>
                         <Button onClick={handleSignOut}>
                             <div className={styles.menu_btn}>
                                 <LogoutIcon />
                                 <p>Log Out</p>
                             </div>
                         </Button>
+                        <Button onClick={handleDeleteAccount}>
+                            <div className={styles.menu_btn}>
+                                <PersonRemoveIcon />
+                                <p>Delete Account</p>
+                            </div>
+                        </Button>
                     </div>
-                   
                     <Button onClick={closeMenu}>
                         <CloseIcon />
                     </Button>
