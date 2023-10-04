@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import CloseIcon from '@mui/icons-material/Close';
-import { Button, Drawer } from '@mui/material';
+import { Button, Divider, Drawer } from '@mui/material';
 import { useClerk } from "@clerk/nextjs";
 import { useRouter } from 'next/navigation'
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
@@ -45,6 +45,10 @@ export default function Header() {
             >
                 <div className={styles.menu_container}>
                     <div className={styles.menu_top}>
+                        <p style={{textAlign: 'center'}}>{user?.username}</p>
+                        <br />
+                        <Divider />
+                        <br />
                         <Button onClick={handleSignOut}>
                             <div className={styles.menu_btn}>
                                 <LogoutIcon />

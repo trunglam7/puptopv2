@@ -1,0 +1,17 @@
+.dog_card_container{
+    width: min(45%, 325px);
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    border-radius: 1rem;
+    position: relative;
+}
+
+.dog_name{
+    color: white;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem 1rem;
+}

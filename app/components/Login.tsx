@@ -1,7 +1,6 @@
 import { Button } from '@mui/material'
 import styles from '../styles/login.module.css'
 import React from 'react'
-import DogCardTemplate from './DogCardTemplate'
 import { SignUpButton, useClerk } from '@clerk/clerk-react'
 import { useRouter } from 'next/navigation'
 import { useConvexAuth } from 'convex/react'

@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import { SignInButton, useClerk } from "@clerk/clerk-react";
 import { Button, CircularProgress } from "@mui/material";
 import Loading from "./components/Loading";
+import VotingPlatform from "./components/VotingPlatform";
 
 
 export default function Home() {
@@ -28,9 +29,7 @@ export default function Home() {
         {isAuthenticated ? 
             <>
                 <Header />
-                <main className={styles.main}>
-                    main
-                </main>
+                <VotingPlatform />
                 <Footer />
             </> : isLoading ? <Loading /> : <Login signIn={openSignIn}/>
         }

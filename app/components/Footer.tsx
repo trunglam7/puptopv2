@@ -4,46 +4,28 @@ import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import PetsIcon from '@mui/icons-material/Pets';
 
 import styles from '../styles/footer.module.css'
-import { Button } from '@mui/material';
+import { Button, SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
 
 export default function Footer() {
 
-    const addBtnSx = {
-        color: '#009eff',
-        borderRadius: '50%',
-        border: '7px solid #009eff',
-        fontSize: '4.5rem',
-        backgroundColor: 'white',
-        cursor: 'pointer'
-    }
-
-    const navBtnSx = {
-        color: 'white',
-        boxShadow: 'none',
-        '&:hover': {
-            bgcolor: '#009eff',
-            boxShadow: 'none'
-        },
-    }
+    const actions = [
+        { icon: <AddIcon />, name: 'Add Dog' },
+        { icon: <LeaderboardIcon />, name: 'Leaderboard' },
+    ];
 
     return (
-        <div className={styles.footer}>
-            <Button variant='contained' sx={navBtnSx}>
-                <div className={styles.menu_btn}>
-                    <LeaderboardIcon />
-                    <p>Leaderboard</p>
-                </div>
-            </Button>
-            <div className={styles.btn_container}>
-                <Button><AddIcon sx={addBtnSx} /></Button>
-                <p>Add</p>
-            </div>
-            <Button variant='contained' sx={navBtnSx}>
-                <div className={styles.menu_btn}>
-                    <PetsIcon />
-                    <p>Your Dogs</p>
-                </div>
-            </Button>
-        </div>
+        <SpeedDial
+            ariaLabel="Speed Dial"
+            sx={{ position: 'fixed', bottom: 16, right: 16 }}
+            icon={<SpeedDialIcon sx={{color: 'white'}}/>}
+      >
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+          />
+        ))}
+        </SpeedDial>
     )
 }
