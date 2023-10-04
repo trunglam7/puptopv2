@@ -13,10 +13,6 @@ interface LoginProps {
 
 export default function Login({signIn} : LoginProps) {
 
-    const router = useRouter();
-    const {isAuthenticated, isLoading} = useConvexAuth();
-    const {redirectToHome} = useClerk();
-
     const buttonSx = {
         color: 'white'
     };
