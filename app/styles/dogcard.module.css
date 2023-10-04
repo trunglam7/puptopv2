@@ -4,6 +4,7 @@
     overflow: hidden;
     border-radius: 1rem;
     position: relative;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
 }
 
 .dog_name{
