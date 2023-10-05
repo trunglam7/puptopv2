@@ -13,7 +13,7 @@ interface DogCardProps {
 export default function DogCard({name, img, swipe} : DogCardProps) {
 
   const [springs, api] = useSpring(() => ({
-    from: { x: 0, rotate: 0 },
+    from: { x: 0, rotate: 0, opacity: 1 },
   }))
 
   const bind = useDrag(({ down, movement: [mx] }) => {
@@ -23,12 +23,35 @@ export default function DogCard({name, img, swipe} : DogCardProps) {
 
     const rotation = mx > rotateThreshold ? rotateDeg : mx < (-1 * rotateThreshold) ? (-1 * rotateDeg) : 0;
 
-    swipe(mx, rotateThreshold);
+    if(!down) {
+      api.start({
+        x: mx * 2,
+        opacity: 0
+      })
 
-    api.start({
-      x: down ? mx : 0,
-      rotate: rotation
-    })
+      swipe(mx, rotateThreshold);
+
+      setTimeout(() => {
+        api.start({
+          x: 0,
+          rotate: 0
+        });
+        setTimeout(() => {
+          api.start({
+            opacity: 1
+          });
+          swipe(0, rotateThreshold);
+        }, 500);
+
+      }, 500);
+
+
+    } else {
+      api.start({
+        x: mx,
+        rotate: rotation
+      })
+    }
   })
 
   return (

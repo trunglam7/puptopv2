@@ -35,16 +35,25 @@ export default function VotingPlatform() {
         direction > threshold ? setSwipeDirection(1) : direction < (-1 * threshold) ? setSwipeDirection(-1): setSwipeDirection(0);
     }
 
-    console.log(swipeDirection);
+
+    const swipeScore = () => {
+        if(swipeDirection === 1) {
+            return 'lime';
+        } else if (swipeDirection === -1) {
+            return 'red';
+        } else {
+            return 'initial';
+        }
+    }
 
     return (
         <div className={styles.voting_platform_container}>
             {dogs?.map(dog => <DogCard name={dog.name} img={dog.img} swipe={handleSwipeDirection}/>)}
             <div className={styles.vote_btn_container}>
-                <Button sx={leftVotingBtnSx} variant='outlined'>
+                <Button sx={leftVotingBtnSx} variant='outlined' disabled={swipeDirection !== 0}>
                     <NotInterestedIcon sx={{fontSize: '2rem'}}/>
                 </Button>
-                <Button sx={rightVotingBtnSx} variant='outlined'>
+                <Button sx={rightVotingBtnSx} variant='outlined' disabled={swipeDirection !== 0}>
                     <FavoriteIcon sx={{fontSize: '2rem'}}/>
                 </Button>   
             </div>
