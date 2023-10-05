@@ -2,14 +2,15 @@ import React from 'react'
 import styles from '../styles/dogcard.module.css'
 import Image from 'next/image'
 import { useSpring, animated } from '@react-spring/web'
-import { useDrag, useGesture } from '@use-gesture/react'
+import { useDrag } from '@use-gesture/react'
 
 interface DogCardProps {
   name: string,
-  img: string
+  img: string,
+  swipe: (direction: number, threshold: number) => void
 }
 
-export default function DogCard({name, img} : DogCardProps) {
+export default function DogCard({name, img, swipe} : DogCardProps) {
 
   const [springs, api] = useSpring(() => ({
     from: { x: 0, rotate: 0 },
@@ -21,6 +22,8 @@ export default function DogCard({name, img} : DogCardProps) {
     const rotateThreshold = 50;
 
     const rotation = mx > rotateThreshold ? rotateDeg : mx < (-1 * rotateThreshold) ? (-1 * rotateDeg) : 0;
+
+    swipe(mx, rotateThreshold);
 
     api.start({
       x: down ? mx : 0,

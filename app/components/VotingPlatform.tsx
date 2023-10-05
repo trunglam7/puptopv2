@@ -11,7 +11,7 @@ export default function VotingPlatform() {
 
     const dogs = useQuery(api.dogs.getDogs);
 
-    console.log(dogs);
+    const [swipeDirection, setSwipeDirection] = useState(0);
 
     const leftVotingBtnSx = {
         borderRadius: '2rem',
@@ -31,11 +31,15 @@ export default function VotingPlatform() {
         }
     }
 
+    const handleSwipeDirection = (direction : number, threshold: number) => {
+        direction > threshold ? setSwipeDirection(1) : direction < (-1 * threshold) ? setSwipeDirection(-1): setSwipeDirection(0);
+    }
 
+    console.log(swipeDirection);
 
     return (
         <div className={styles.voting_platform_container}>
-            {dogs?.map(dog => <DogCard name={dog.name} img={dog.img}/>)}
+            {dogs?.map(dog => <DogCard name={dog.name} img={dog.img} swipe={handleSwipeDirection}/>)}
             <div className={styles.vote_btn_container}>
                 <Button sx={leftVotingBtnSx} variant='outlined'>
                     <NotInterestedIcon sx={{fontSize: '2rem'}}/>
