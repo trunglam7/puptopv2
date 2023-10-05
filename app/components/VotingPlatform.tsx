@@ -29,7 +29,7 @@ export default function VotingPlatform() {
 
     return (
         <div className={styles.voting_platform_container}>
-            <DogCard />
+            <DogCard name='Koji' img='/koji.jpg'/>
             <div className={styles.vote_btn_container}>
                 <Button sx={leftVotingBtnSx} variant='outlined'>
                     <NotInterestedIcon sx={{fontSize: '2rem'}}/>

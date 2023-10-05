@@ -8,12 +8,12 @@ import { Button, Divider, Drawer } from '@mui/material';
 import { useClerk } from "@clerk/nextjs";
 import { useRouter } from 'next/navigation'
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import DeleteAccount from './DeleteAccount';
 
 export default function Header() {
 
-    const router = useRouter();
-
     const [toggleMenu, setToggleMenu] = useState(false);
+    const [deletePopup, setDeletePopup] = useState(false);
     const { signOut, user } = useClerk();
 
     const openMenu = () => {
@@ -29,10 +29,12 @@ export default function Header() {
     }
 
     const handleDeleteAccount = () => {
-        user?.delete().then(() => signOut())
-            .catch(err => console.log("Unable to delete account:", err));
+        setDeletePopup(true);
     }
 
+    const handleCloseDelete = () => {
+        setDeletePopup(false);
+    }
 
     return (
         <header className={styles.header}>
@@ -67,6 +69,7 @@ export default function Header() {
                     </Button>
                 </div>
             </Drawer>
+            <DeleteAccount open={deletePopup} close={handleCloseDelete} user={user}/>
         </header>
     )
 }
