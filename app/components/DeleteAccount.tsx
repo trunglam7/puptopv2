@@ -19,6 +19,11 @@ export default function DeleteAccount({open, close, user} : DeleteAccountProps) 
             .catch((err : any) => console.log("Unable to delete account:", err));
     }
 
+    const handleCancelDelete = () => {
+        setUsername('');
+        close();
+    }
+
     return (
         <Dialog open={open} onClose={close}>
             <form id='delete-form' className={styles.delete_container}>
@@ -29,7 +34,8 @@ export default function DeleteAccount({open, close, user} : DeleteAccountProps) 
                     variant="outlined" 
                     onChange={(e) => setUsername(e.target.value)}
                 />
-                <Button variant='contained' onClick={handleDeleteAccount} disabled={username != user.username}>Delete Account</Button>
+                <Button variant='contained' onClick={handleDeleteAccount} sx={{color: 'white'}} disabled={username != user.username}>Delete Account</Button>
+                <Button variant='outlined' onClick={handleCancelDelete}>Cancel</Button>
             </form>   
         </Dialog>
     )

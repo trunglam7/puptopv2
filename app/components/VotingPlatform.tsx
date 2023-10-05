@@ -4,8 +4,14 @@ import DogCard from './DogCard'
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Button } from '@mui/material';
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
 
 export default function VotingPlatform() {
+
+    const dogs = useQuery(api.dogs.getDogs);
+
+    console.log(dogs);
 
     const leftVotingBtnSx = {
         borderRadius: '2rem',
@@ -29,7 +35,7 @@ export default function VotingPlatform() {
 
     return (
         <div className={styles.voting_platform_container}>
-            <DogCard name='Koji' img='/koji.jpg'/>
+            {dogs?.map(dog => <DogCard name={dog.name} img={dog.img}/>)}
             <div className={styles.vote_btn_container}>
                 <Button sx={leftVotingBtnSx} variant='outlined'>
                     <NotInterestedIcon sx={{fontSize: '2rem'}}/>
