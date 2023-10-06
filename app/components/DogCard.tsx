@@ -36,7 +36,6 @@ export default function DogCard({name, img, swipe} : DogCardProps) {
           x: 0,
           rotate: 0
         });
-
       }, 500);
 	}
 	else if (!down && (mx < rotateThreshold && mx > (-1 * rotateThreshold))) {
