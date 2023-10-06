@@ -4,15 +4,15 @@ import DogCard from './DogCard'
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Button } from '@mui/material';
-import { useQuery } from 'convex/react';
+import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 
 export default function VotingPlatform() {
 
     const dogs = useQuery(api.dogs.getDogs);
+    const updateDogScore = useMutation(api.dogs.updateScore);
 
     const [swipeDirection, setSwipeDirection] = useState(0);
-    const [score, setScore] = useState(0);
     const [currDog, setCurrDog] = useState(0);
     const [end, setEnd] = useState(false);
 
@@ -53,10 +53,9 @@ export default function VotingPlatform() {
     }
     
     useEffect(() => {
-        const currScore = score;
         const dogsLength = dogs?.length ? dogs.length : 0;
         if(swipeDirection === -1) {
-            setScore(currScore - 1);
+            updateDogScore({id: dogs && dogs[currDog]._id, score: dogs ? dogs[currDog].score - 1 : 0 })
 
             setTimeout(() => {
                 if(currDog + 1 < dogsLength) {
@@ -68,7 +67,7 @@ export default function VotingPlatform() {
             }, 500)
         }
         else if(swipeDirection === 1) {
-            setScore(currScore + 1);
+            updateDogScore({id: dogs && dogs[currDog]._id, score: dogs ? dogs[currDog].score + 1 : 0 })
             
             setTimeout(() => {
                 if(currDog + 1 < dogsLength) {

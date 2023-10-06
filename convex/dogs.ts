@@ -17,3 +17,13 @@ export const addDog = mutation({
       return newTaskId;
     },
 });
+
+//update dog with given id
+export const updateScore = mutation({
+  args: { id: v.id("dogs"), score: v.number() },
+  handler: async (ctx, args) => {
+    const { id, score } = args;
+  
+    await ctx.db.patch(id, {score: score });
+  },
+});
