@@ -7,6 +7,15 @@
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
 }
 
+.dog_preview_container{
+    width: 225px;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    border-radius: 1rem;
+    position: relative;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+}
+
 .dog_name{
     color: white;
     position: absolute;

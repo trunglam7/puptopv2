@@ -13,6 +13,7 @@ export default function VotingPlatform() {
     const updateDogScore = useMutation(api.dogs.updateScore);
 
     const [swipeDirection, setSwipeDirection] = useState(0);
+    const [autoSwipe, setAutoSwipe] = useState(0);
     const [currDog, setCurrDog] = useState(0);
     const [end, setEnd] = useState(false);
 
@@ -50,8 +51,19 @@ export default function VotingPlatform() {
 
     const handleSwipeDirection = (direction : number, threshold: number) => {
         direction > threshold ? setSwipeDirection(1) : direction < (-1 * threshold) ? setSwipeDirection(-1): setSwipeDirection(0);
+        setAutoSwipe(0);
     }
     
+    const handleBtnSwipe = (direction : string) => {
+        if(direction === 'left'){
+            setAutoSwipe(-1)
+        } else if (direction === 'right') {
+            setAutoSwipe(1)
+        } else {
+            setAutoSwipe(0)
+        }
+    }
+
     useEffect(() => {
         const dogsLength = dogs?.length ? dogs.length : 0;
         if(swipeDirection === -1) {
@@ -83,15 +95,31 @@ export default function VotingPlatform() {
     return (
         <div className={styles.voting_platform_container}>
             {(dogs && !end) ? 
-                <DogCard key={dogs[currDog]._id} name={dogs[currDog].name} img={dogs[currDog].img} swipe={handleSwipeDirection}/>
+                <DogCard 
+                    key={dogs[currDog]._id} 
+                    name={dogs[currDog].name} 
+                    img={dogs[currDog].img} 
+                    swipe={handleSwipeDirection}
+                    autoSwipe={autoSwipe}
+                />
                 : <p>No More Dogs</p>
             
             }
             <div className={styles.vote_btn_container}>
-                <Button sx={swipeDirection === -1 ? leftVotingBtnActiveSx : leftVotingBtnSx} disabled={end} variant='outlined'>
+                <Button 
+                    sx={swipeDirection === -1 ? leftVotingBtnActiveSx : leftVotingBtnSx} 
+                    disabled={swipeDirection !== 0 || end} 
+                    variant='outlined'
+                    onClick={() => handleBtnSwipe('left')}
+                >
                     <NotInterestedIcon sx={{fontSize: '2rem'}}/>
                 </Button>
-                <Button sx={swipeDirection === 1 ? rightVotingBtnActiveSx : rightVotingBtnSx} disabled={end} variant='outlined'>
+                <Button 
+                    sx={swipeDirection === 1 ? rightVotingBtnActiveSx : rightVotingBtnSx} 
+                    disabled={swipeDirection !== 0 || end} 
+                    variant='outlined'
+                    onClick={() => handleBtnSwipe('right')}
+                >
                     <FavoriteIcon sx={{fontSize: '2rem'}}/>
                 </Button>   
             </div>

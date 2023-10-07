@@ -5,6 +5,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 
 import styles from '../styles/footer.module.css'
 import { Button, Dialog, SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
+import AddDogDialog from './AddDogDialog';
 
 export default function Footer() {
 
@@ -51,7 +52,7 @@ export default function Footer() {
 				))}
 			</SpeedDial>
 			<Dialog id='add-dog-dialog' open={openAddDog} onClose={handleDialogClose}>
-				<p>Add Dog</p>
+				<AddDogDialog close={handleDialogClose}/>
 			</Dialog>
 			<Dialog id='leaderboard-dialog' open={openLeaderboard} onClose={handleDialogClose}>
 				<p>Leaderboard</p>
