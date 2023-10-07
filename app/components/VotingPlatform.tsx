@@ -10,7 +10,6 @@ import { api } from '@/convex/_generated/api';
 export default function VotingPlatform() {
 
     const dogs = useQuery(api.dogs.getDogs);
-    console.log(dogs);
     const updateDogScore = useMutation(api.dogs.updateScore);
 
     const [swipeDirection, setSwipeDirection] = useState(0);
@@ -99,7 +98,7 @@ export default function VotingPlatform() {
                 <DogCard 
                     key={dogs[currDog]._id} 
                     name={dogs[currDog].name} 
-                    img={dogs[currDog].imgId} 
+                    img={dogs[currDog].url} 
                     swipe={handleSwipeDirection}
                     autoSwipe={autoSwipe}
                 />

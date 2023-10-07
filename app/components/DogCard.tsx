@@ -15,8 +15,6 @@ interface DogCardProps {
 
 export default function DogCard({name, img, swipe, autoSwipe} : DogCardProps) {
 
-  const imageUrl = `https://affable-wildcat-880.convex.cloud/api/storage/${img}`
-
   const [springs, springApi] = useSpring(() => ({
     from: { x: 0, rotate: 0, opacity: 1 },
   }))
@@ -101,7 +99,7 @@ export default function DogCard({name, img, swipe, autoSwipe} : DogCardProps) {
   return (
     <animated.div {...bind()} style={{...springs, touchAction: 'none', cursor: 'pointer'}} className={styles.dog_card_container}>
         <Image 
-          loader={() => imageUrl} unoptimized src={imageUrl} alt='dog image' fill objectFit='cover' style={{pointerEvents: 'none'}}/>
+          loader={() => img} unoptimized src={img} alt='dog image' fill objectFit='cover' style={{pointerEvents: 'none'}}/>
         <b className={styles.dog_name}>{name?.toUpperCase()}</b>
     </animated.div>
   )

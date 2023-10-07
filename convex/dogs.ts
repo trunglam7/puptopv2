@@ -1,14 +1,6 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
-// Get contents of db
-export const getDogs = query({
-    args: {},
-    handler: async (ctx) => {
-      return await ctx.db.query("dogs").collect();
-    },
-});
-
 // add a new dog
 export const addDog = mutation({
     args: { isCompleted: v.boolean(), text: v.string() },
@@ -45,3 +37,18 @@ export const submitDog = mutation({
 });
 
 
+export const getDogs = query({
+  args: {},
+  handler: async (ctx) => {
+    const messages = await ctx.db.query("dogs").collect();
+    return Promise.all(
+      messages.map(async (dog) => ({
+        ...dog,
+        // If the message is an "image" its `body` is a `StorageId`
+        ...(dog.imgId
+          ? { url: await ctx.storage.getUrl(dog.imgId) }
+          : {}),
+      }))
+    );
+  },
+});
