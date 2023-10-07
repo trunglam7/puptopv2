@@ -27,3 +27,21 @@ export const updateScore = mutation({
     await ctx.db.patch(id, {score: score });
   },
 });
+
+export const generateUploadUrl = mutation(async (ctx) => {
+  return await ctx.storage.generateUploadUrl();
+});
+
+export const submitDog = mutation({
+  args: { storageId: v.string(), author: v.string(), name: v.string()},
+  handler: async (ctx, args) => {
+    await ctx.db.insert("dogs", {
+      imgId: args.storageId,
+      author: args.author,
+      name: args.name,
+      score: 0
+    });
+  },
+});
+
+

@@ -10,6 +10,7 @@ import { api } from '@/convex/_generated/api';
 export default function VotingPlatform() {
 
     const dogs = useQuery(api.dogs.getDogs);
+    console.log(dogs);
     const updateDogScore = useMutation(api.dogs.updateScore);
 
     const [swipeDirection, setSwipeDirection] = useState(0);
@@ -94,11 +95,11 @@ export default function VotingPlatform() {
 
     return (
         <div className={styles.voting_platform_container}>
-            {(dogs && !end) ? 
+            {(dogs?.length && !end) ? 
                 <DogCard 
                     key={dogs[currDog]._id} 
                     name={dogs[currDog].name} 
-                    img={dogs[currDog].img} 
+                    img={dogs[currDog].imgId} 
                     swipe={handleSwipeDirection}
                     autoSwipe={autoSwipe}
                 />
@@ -107,18 +108,20 @@ export default function VotingPlatform() {
             }
             <div className={styles.vote_btn_container}>
                 <Button 
-                    sx={swipeDirection === -1 ? leftVotingBtnActiveSx : leftVotingBtnSx} 
-                    disabled={swipeDirection !== 0 || end} 
+                    sx={autoSwipe === -1 || swipeDirection === -1 ? leftVotingBtnActiveSx : leftVotingBtnSx} 
+                    disabled={swipeDirection !== 0 || end || !dogs?.length} 
                     variant='outlined'
                     onClick={() => handleBtnSwipe('left')}
+                    onTouchStart={() => handleBtnSwipe('left')}
                 >
                     <NotInterestedIcon sx={{fontSize: '2rem'}}/>
                 </Button>
                 <Button 
-                    sx={swipeDirection === 1 ? rightVotingBtnActiveSx : rightVotingBtnSx} 
-                    disabled={swipeDirection !== 0 || end} 
+                    sx={autoSwipe === 1 || swipeDirection === 1 ? rightVotingBtnActiveSx : rightVotingBtnSx} 
+                    disabled={swipeDirection !== 0 || end || !dogs?.length} 
                     variant='outlined'
                     onClick={() => handleBtnSwipe('right')}
+                    onTouchStart={() => handleBtnSwipe('right')}
                 >
                     <FavoriteIcon sx={{fontSize: '2rem'}}/>
                 </Button>   
