@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <ThemeProvider theme={mainTheme}>
-        {isAuthenticated ? 
+        {isAuthenticated ?
             <>
                 <Header />
                 <VotingPlatform />

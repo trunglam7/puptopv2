@@ -17,8 +17,6 @@ export default function VotingPlatform() {
     const getUsers = useQuery(api.users.getUsers);
     const addUser = useMutation(api.users.addUser);
 
-    console.log(getUsers);
-
     const [swipeDirection, setSwipeDirection] = useState(0);
     const [autoSwipe, setAutoSwipe] = useState(0);
     const [currDog, setCurrDog] = useState(0);
