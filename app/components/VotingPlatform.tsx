@@ -6,11 +6,18 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Button } from '@mui/material';
 import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
+import { useClerk } from '@clerk/clerk-react';
 
 export default function VotingPlatform() {
 
     const dogs = useQuery(api.dogs.getDogs);
     const updateDogScore = useMutation(api.dogs.updateScore);
+    const {user} = useClerk();
+
+    const getUsers = useQuery(api.users.getUsers);
+    const addUser = useMutation(api.users.addUser);
+
+    console.log(getUsers);
 
     const [swipeDirection, setSwipeDirection] = useState(0);
     const [autoSwipe, setAutoSwipe] = useState(0);
@@ -63,6 +70,10 @@ export default function VotingPlatform() {
             setAutoSwipe(0)
         }
     }
+
+    useEffect(() => {
+        addUser({userId: user ? user?.id : 'none'});
+    }, [])
 
     useEffect(() => {
         const dogsLength = dogs?.length ? dogs.length : 0;

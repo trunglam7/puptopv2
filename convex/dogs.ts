@@ -1,15 +1,6 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
-// add a new dog
-export const addDog = mutation({
-    args: { isCompleted: v.boolean(), text: v.string() },
-    handler: async (ctx, args) => {
-      const newTaskId = await ctx.db.insert("tasks", { isCompleted: args.isCompleted, text: args.text });
-      return newTaskId;
-    },
-});
-
 //update dog with given id
 export const updateScore = mutation({
   args: { id: v.id("dogs"), score: v.number() },
@@ -36,19 +27,54 @@ export const submitDog = mutation({
   },
 });
 
-
 export const getDogs = query({
   args: {},
   handler: async (ctx) => {
-    const messages = await ctx.db.query("dogs").collect();
+    const dogs = await ctx.db.query("dogs").collect();
     return Promise.all(
-      messages.map(async (dog) => ({
+      dogs.map(async (dog) => ({
         ...dog,
-        // If the message is an "image" its `body` is a `StorageId`
         ...(dog.imgId
           ? { url: await ctx.storage.getUrl(dog.imgId) }
           : {}),
       }))
     );
+  },
+});
+
+/* Demo Functions */
+export const getDogsDemo = query({
+  args: {},
+  handler: async (ctx) => {
+    const dogs = await ctx.db.query("dogs_demo").collect();
+    return Promise.all(
+      dogs.map(async (dog) => ({
+        ...dog,
+        ...(dog.imgId
+          ? { url: await ctx.storage.getUrl(dog.imgId) }
+          : {}),
+      }))
+    );
+  },
+});
+
+export const submitDogDemo = mutation({
+  args: { storageId: v.string(), author: v.string(), name: v.string()},
+  handler: async (ctx, args) => {
+    await ctx.db.insert("dogs_demo", {
+      imgId: args.storageId,
+      author: args.author,
+      name: args.name,
+      score: 0
+    });
+  },
+});
+
+export const updateScoreDemo = mutation({
+  args: { id: v.id("dogs_demo"), score: v.number() },
+  handler: async (ctx, args) => {
+    const { id, score } = args;
+  
+    await ctx.db.patch(id, {score: score });
   },
 });

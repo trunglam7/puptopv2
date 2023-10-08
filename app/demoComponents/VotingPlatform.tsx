@@ -9,8 +9,8 @@ import { api } from '@/convex/_generated/api';
 
 export default function VotingPlatform() {
 
-    const dogs = useQuery(api.dogs.getDogs);
-    //const updateDogScore = useMutation(api.dogs.updateScore);
+    const dogs = useQuery(api.dogs.getDogsDemo);
+    const updateDogScore = useMutation(api.dogs.updateScoreDemo);
 
     const [swipeDirection, setSwipeDirection] = useState(0);
     const [autoSwipe, setAutoSwipe] = useState(0);
@@ -67,6 +67,7 @@ export default function VotingPlatform() {
     useEffect(() => {
         const dogsLength = dogs?.length ? dogs.length : 0;
         if(swipeDirection === -1) {
+            updateDogScore({id: dogs && dogs[currDog]._id, score: dogs ? dogs[currDog].score - 1 : 0 })
             setTimeout(() => {
                 if(currDog + 1 < dogsLength) {
                     setCurrDog(currDog + 1);
@@ -76,7 +77,8 @@ export default function VotingPlatform() {
                 setSwipeDirection(0);
             }, 500)
         }
-        else if(swipeDirection === 1) {            
+        else if(swipeDirection === 1) {  
+            updateDogScore({id: dogs && dogs[currDog]._id, score: dogs ? dogs[currDog].score + 1 : 0 })          
             setTimeout(() => {
                 if(currDog + 1 < dogsLength) {
                     setCurrDog(currDog + 1);

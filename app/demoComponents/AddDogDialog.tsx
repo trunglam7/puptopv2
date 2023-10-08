@@ -20,7 +20,7 @@ export default function AddDogDialog({close} : AddDogDialogProps) {
     const { user } = useClerk();
 
     const generateUploadUrl = useMutation(api.dogs.generateUploadUrl);
-    const submitDog = useMutation(api.dogs.submitDog);
+    const submitDog = useMutation(api.dogs.submitDogDemo);
 
     const handleImageUpload = (e : any) => {
         if(e.target.files){
@@ -41,7 +41,7 @@ export default function AddDogDialog({close} : AddDogDialogProps) {
         
         const {storageId} = await result.json();
 
-        await submitDog({storageId, author: user ? user?.id : '', name: name })
+        await submitDog({storageId, author: 'demo', name: name })
         setImage(null);
         setImagePreview('');
         close();
