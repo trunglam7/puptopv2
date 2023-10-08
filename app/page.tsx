@@ -9,6 +9,7 @@ import { SignInButton, useClerk } from "@clerk/clerk-react";
 import { Button, CircularProgress } from "@mui/material";
 import Loading from "./components/Loading";
 import VotingPlatform from "./components/VotingPlatform";
+import { api } from "@/convex/_generated/api";
 
 
 export default function Home() {

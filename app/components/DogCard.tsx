@@ -37,7 +37,7 @@ export default function DogCard({name, img, swipe, autoSwipe} : DogCardProps) {
       setTimeout(() => {
         springApi.start({
           x: 0,
-          rotate: 0
+          rotate: 0,
         });
       }, 500);
     }
@@ -88,7 +88,8 @@ export default function DogCard({name, img, swipe, autoSwipe} : DogCardProps) {
       setTimeout(() => {
         springApi.start({
           x: 0,
-          rotate: 0
+          rotate: 0,
+          opacity: 1
         });
       }, 500);
     }

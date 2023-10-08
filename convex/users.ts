@@ -23,15 +23,11 @@ export const addUser = mutation({
 });
 
 export const updateUser = mutation({
-    args: {id: v.id("users"), dogId: v.string()},
+    args: {id: v.id("users"), currDog: v.number()},
     handler: async (ctx, args) => {
-        const {id, dogId} = args;
-        const user = await ctx.db.get(args.id);
-        const updatedDogs = user.dogsVoted;
-        if(!updatedDogs.includes(dogId)) {
-            updatedDogs.push(dogId);
-            await ctx.db.patch(id, {dogsVoted: updatedDogs });
-        }
+        const {id, currDog} = args;
+        await ctx.db.patch(id, {currDog: currDog});
+        
     }
 })
 
