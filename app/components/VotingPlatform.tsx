@@ -16,11 +16,14 @@ export default function VotingPlatform() {
 
     const getUsers = useQuery(api.users.getUsers);
     const addUser = useMutation(api.users.addUser);
+    const updateUser = useMutation(api.users.updateUser);
+
+    const userVotedList = getUsers?.filter(x => x.userId === user?.id)[0].dogsVoted;
+    const userConvexId = getUsers?.filter(x => x.userId === user?.id)[0]._id;
 
     const [swipeDirection, setSwipeDirection] = useState(0);
     const [autoSwipe, setAutoSwipe] = useState(0);
-    const [currDog, setCurrDog] = useState(0);
-    const [end, setEnd] = useState(false);
+    const [currDog, setCurrDog] = useState<any>(null);
 
     const leftVotingBtnSx = {
         borderRadius: '2rem',
@@ -58,7 +61,7 @@ export default function VotingPlatform() {
         direction > threshold ? setSwipeDirection(1) : direction < (-1 * threshold) ? setSwipeDirection(-1): setSwipeDirection(0);
         setAutoSwipe(0);
     }
-    
+
     const handleBtnSwipe = (direction : string) => {
         if(direction === 'left'){
             setAutoSwipe(-1)
@@ -71,43 +74,63 @@ export default function VotingPlatform() {
 
     useEffect(() => {
         addUser({userId: user ? user?.id : 'none'});
-    }, [])
+        if(dogs) {
+            for(let i = 0; i < dogs?.length; i++) {
+                if(userVotedList.includes(dogs[i]._id as string)){
+                    continue;
+                } else {
+                    setCurrDog(dogs[i]);
+                    break;
+                }
+            }
+        }
+    }, [dogs])
 
     useEffect(() => {
-        const dogsLength = dogs?.length ? dogs.length : 0;
         if(swipeDirection === -1) {
-            updateDogScore({id: dogs && dogs[currDog]._id, score: dogs ? dogs[currDog].score - 1 : 0 })
-
+            updateDogScore({id: currDog._id, score: currDog.score - 1 });
+            updateUser({id: userConvexId, dogId: currDog._id});
             setTimeout(() => {
-                if(currDog + 1 < dogsLength) {
-                    setCurrDog(currDog + 1);
-                } else {
-                    setEnd(true);
-                }
                 setSwipeDirection(0);
+                if(dogs) {
+                    for(let i = 0; i < dogs?.length; i++) {
+                        if(userVotedList.includes(dogs[i]._id as string)){
+                            continue;
+                        } else {
+                            setCurrDog(dogs[i]);
+                            break;
+                        }
+                    }
+                }
             }, 500)
         }
         else if(swipeDirection === 1) {
-            updateDogScore({id: dogs && dogs[currDog]._id, score: dogs ? dogs[currDog].score + 1 : 0 })
-            
+            updateDogScore({id: currDog._id, score: currDog.score + 1 });
+            updateUser({id: userConvexId, dogId: currDog._id});
             setTimeout(() => {
-                if(currDog + 1 < dogsLength) {
-                    setCurrDog(currDog + 1);
-                } else {
-                    setEnd(true);
-                }
                 setSwipeDirection(0);
+                if(dogs) {
+                    for(let i = 0; i < dogs?.length; i++) {
+                        if(userVotedList.includes(dogs[i]._id as string)){
+                            continue;
+                        } else {
+                            setCurrDog(dogs[i]);
+                            break;
+                        }
+                    }
+                }
             }, 500)
         }
+        
     }, [swipeDirection]);
 
     return (
         <div className={styles.voting_platform_container}>
-            {(dogs?.length && !end) ? 
+            {(currDog) ? 
                 <DogCard 
-                    key={dogs[currDog]._id} 
-                    name={dogs[currDog].name} 
-                    img={dogs[currDog].url} 
+                    key={currDog._id} 
+                    name={currDog.name} 
+                    img={currDog.url} 
                     swipe={handleSwipeDirection}
                     autoSwipe={autoSwipe}
                 />
@@ -117,7 +140,7 @@ export default function VotingPlatform() {
             <div className={styles.vote_btn_container}>
                 <Button 
                     sx={autoSwipe === -1 || swipeDirection === -1 ? leftVotingBtnActiveSx : leftVotingBtnSx} 
-                    disabled={swipeDirection !== 0 || end || !dogs?.length} 
+                    disabled={swipeDirection !== 0 || !(dogs && currDog)} 
                     variant='outlined'
                     onClick={() => handleBtnSwipe('left')}
                     onTouchStart={() => handleBtnSwipe('left')}
@@ -126,7 +149,7 @@ export default function VotingPlatform() {
                 </Button>
                 <Button 
                     sx={autoSwipe === 1 || swipeDirection === 1 ? rightVotingBtnActiveSx : rightVotingBtnSx} 
-                    disabled={swipeDirection !== 0 || end || !dogs?.length} 
+                    disabled={swipeDirection !== 0 || !(dogs && currDog)} 
                     variant='outlined'
                     onClick={() => handleBtnSwipe('right')}
                     onTouchStart={() => handleBtnSwipe('right')}
