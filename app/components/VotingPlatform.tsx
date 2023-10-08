@@ -13,14 +13,16 @@ export default function VotingPlatform() {
     const dogs = useQuery(api.dogs.getDogs);
     const updateDogScore = useMutation(api.dogs.updateScore);
     const updateUser = useMutation(api.users.updateUser);
+    const addUser = useMutation(api.users.addUser);
     const {user} = useClerk();
 
     const getUsers = useQuery(api.users.getUsers);
+    const usersVoteList = getUsers?.filter(x => x.userId === user?.id)[0].dogsVoted;
+    const updatedDogsList = dogs?.filter(dog => !usersVoteList.includes(dog._id));
 
-    const userCurrDog = getUsers?.filter(x => x.userId === user?.id)[0].currDog;
     const userConvexId = getUsers?.filter(x => x.userId === user?.id)[0]._id;
 
-    const [currDog, setCurrDog] = useState(userCurrDog);
+    //const [currDog, setCurrDog] = useState(0);
     const [swipeDirection, setSwipeDirection] = useState(0);
     const [autoSwipe, setAutoSwipe] = useState(0);
 
@@ -73,16 +75,18 @@ export default function VotingPlatform() {
 
     useEffect(() => {
         if(swipeDirection === -1) {
-            updateDogScore({id: dogs ? dogs[currDog]._id : '', score: dogs ? dogs[currDog].score - 1 : 0});
-            updateUser({id: userConvexId, currDog: currDog + 1});
+            updateDogScore({id: updatedDogsList ? updatedDogsList[0]._id : '', score: updatedDogsList ? updatedDogsList[0].score - 1 : 0});
+            updateUser({id: userConvexId, dogId: updatedDogsList ? updatedDogsList[0]._id : ''});
             setTimeout(() => {
+                //setCurrDog(currDog + 1);
                 setSwipeDirection(0);
             }, 500)
         }
         else if(swipeDirection === 1) {
-            updateDogScore({id: dogs ? dogs[currDog]._id : '', score: dogs ? dogs[currDog].score + 1 : 0});
-            updateUser({id: userConvexId, currDog: currDog + 1});
+            updateDogScore({id: updatedDogsList ? updatedDogsList[0]._id : '', score: updatedDogsList ? updatedDogsList[0].score + 1 : 0});
+            updateUser({id: userConvexId, dogId: updatedDogsList ? updatedDogsList[0]._id : ''});
             setTimeout(() => {
+                //setCurrDog(currDog + 1);
                 setSwipeDirection(0);
             }, 500)
         }
@@ -90,19 +94,19 @@ export default function VotingPlatform() {
     }, [swipeDirection]);
 
     useEffect(() => {
-        setCurrDog(userCurrDog);
-    }, [userCurrDog])
+        addUser({userId: user ? user.id : ''});
+    }, [])
 
-    if(!dogs) return;
+    if(!updatedDogsList) return;
 
     return (
         <div className={styles.voting_platform_container}>
             {
-                (dogs[currDog]) ? 
+                (updatedDogsList[0]) ? 
                 <DogCard 
-                    key={dogs[currDog]._id} 
-                    name={dogs[currDog].name} 
-                    img={dogs[currDog].url} 
+                    key={updatedDogsList[0]._id} 
+                    name={updatedDogsList[0].name} 
+                    img={updatedDogsList[0].url} 
                     swipe={handleSwipeDirection}
                     autoSwipe={autoSwipe}
                 />
@@ -112,7 +116,7 @@ export default function VotingPlatform() {
          <div className={styles.vote_btn_container}>
                 <Button 
                     sx={autoSwipe === -1 || swipeDirection === -1 ? leftVotingBtnActiveSx : leftVotingBtnSx} 
-                    disabled={swipeDirection !== 0 || !(dogs && dogs[currDog])} 
+                    disabled={swipeDirection !== 0 || !(updatedDogsList && updatedDogsList[0])} 
                     variant='outlined'
                     onClick={() => handleBtnSwipe('left')}
                     onTouchStart={() => handleBtnSwipe('left')}
@@ -121,7 +125,7 @@ export default function VotingPlatform() {
                 </Button>
                 <Button 
                     sx={autoSwipe === 1 || swipeDirection === 1 ? rightVotingBtnActiveSx : rightVotingBtnSx} 
-                    disabled={swipeDirection !== 0 || !(dogs && dogs[currDog])} 
+                    disabled={swipeDirection !== 0 || !(updatedDogsList && updatedDogsList[0])} 
                     variant='outlined'
                     onClick={() => handleBtnSwipe('right')}
                     onTouchStart={() => handleBtnSwipe('right')}
