@@ -18,7 +18,7 @@ export default function VotingPlatform() {
 
     const getUsers = useQuery(api.users.getUsers);
     const usersVoteList = getUsers?.filter(x => x.userId === user?.id)[0].dogsVoted;
-    const updatedDogsList = dogs?.filter(dog => !usersVoteList.includes(dog._id));
+    const updatedDogsList = dogs?.filter(dog => !usersVoteList?.includes(dog._id));
 
     const userConvexId = getUsers?.filter(x => x.userId === user?.id)[0]._id;
 

@@ -4,8 +4,9 @@ import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import PetsIcon from '@mui/icons-material/Pets';
 
 import styles from '../styles/footer.module.css'
-import { Button, Dialog, SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
+import { Button, Dialog, Drawer, SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
 import AddDogDialog from './AddDogDialog';
+import Leaderboard from './Leaderboard';
 
 export default function Footer() {
 
@@ -54,9 +55,12 @@ export default function Footer() {
 			<Dialog id='add-dog-dialog' open={openAddDog} onClose={handleDialogClose}>
 				<AddDogDialog close={handleDialogClose}/>
 			</Dialog>
-			<Dialog id='leaderboard-dialog' open={openLeaderboard} onClose={handleDialogClose}>
-				<p>Leaderboard</p>
-			</Dialog>
+			<Drawer
+				open={openLeaderboard}
+				onClose={handleDialogClose} 
+				anchor='top'>
+				<Leaderboard close={handleDialogClose}/>
+			</Drawer>
 		</>
         
     )

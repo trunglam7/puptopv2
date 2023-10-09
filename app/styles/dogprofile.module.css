@@ -1,0 +1,13 @@
+.dog_profile_img{
+    width: 5rem;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+
+.dog_profile_container{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
