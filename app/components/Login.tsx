@@ -12,7 +12,6 @@ interface LoginProps {
 
 export default function Login({signIn} : LoginProps) {
 
-    const router = useRouter();
     const [preview, setPreview] = useState(false);
 
     const buttonSx = {
@@ -21,10 +20,6 @@ export default function Login({signIn} : LoginProps) {
 
     const handleLogin = async (e: any) => {
         signIn();
-    }
-
-    const switchDemo = () => {
-        router.push('/demo');
     }
 
     const handleClosePreview = () => {
@@ -40,13 +35,12 @@ export default function Login({signIn} : LoginProps) {
                 <div className={styles.login_side}>
                     <h1>PupTop</h1>
                     <Button sx={buttonSx} onClick={handleLogin} variant='contained'>Sign In or Sign Up</Button>
-                    <Button sx={buttonSx} onClick={switchDemo} variant='contained'>Demo</Button>
-                    <Button sx={buttonSx} variant='contained' onClick={() => setPreview(true)}>Video</Button>
+                    <Button sx={buttonSx} variant='contained' onClick={() => setPreview(true)}>Demo</Button>
                 </div>
             </div>
             <Dialog open={preview} onClose={handleClosePreview}>
                 <video controls>
-                    <source src="./PupTop_recording.mp4" type="video/mp4" />
+                    <source src="./pupTop_recording.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
             </Dialog>
