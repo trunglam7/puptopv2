@@ -42,6 +42,17 @@ export const getDogs = query({
   },
 });
 
+export const deleteDog = mutation({
+  args: {id: v.id("dogs")},
+  handler: async (ctx, args) => {
+    const dog = await ctx.db.get(args.id);
+    const imageId = dog.imgId;
+
+    await ctx.db.delete(args.id);
+    await ctx.storage.delete(imageId);
+  }
+})
+
 /* Demo Functions */
 export const getDogsDemo = query({
   args: {},

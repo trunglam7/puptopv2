@@ -16,8 +16,8 @@ export default function PreviewDogCard({name, img}: PreviewDogCardProps) {
             src={img} 
             alt='dog image' 
             fill 
-            objectFit='cover' 
-            style={{pointerEvents: 'none'}}
+            style={{pointerEvents: 'none', objectFit: 'cover'}}
+            priority
         />
          <b className={styles.dog_name}>{name?.toUpperCase()}</b>
     </div>

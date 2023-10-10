@@ -99,7 +99,7 @@ export default function DogCard({name, img, swipe, autoSwipe} : DogCardProps) {
   return (
     <animated.div {...bind()} style={{...springs, touchAction: 'none', cursor: 'pointer'}} className={styles.dog_card_container}>
         <Image 
-          loader={() => img} unoptimized src={img} alt='dog image' fill objectFit='cover' style={{pointerEvents: 'none'}}/>
+          loader={() => img} priority unoptimized src={img} alt='dog image' fill style={{pointerEvents: 'none', objectFit: 'cover'}}/>
         <b className={styles.dog_name}>{name?.toUpperCase()}</b>
     </animated.div>
   )

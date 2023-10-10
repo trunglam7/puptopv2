@@ -5,7 +5,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
-import { useQuery } from 'convex/react'
+import { useMutation, useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import DogProfile from './DogProfile'
 import { useClerk } from '@clerk/clerk-react';
@@ -17,11 +17,16 @@ interface LeaderboardProps {
 export default function Leaderboard({close} : LeaderboardProps) {
 
     const dogs = useQuery(api.dogs.getDogs);
+    const deleteDog = useMutation(api.dogs.deleteDog);
     const {user} = useClerk();
     const sortedDogs = dogs?.sort((a, b) => b.score - a.score);
     const sortedPersonal = sortedDogs?.filter(dog => dog.author === user?.id);
     const sortedGlobal = sortedDogs?.slice(0, 3);
     const [openEdit, setOpenEdit] = useState(false);
+
+    const handleDeleteDog = (dogId: any) => {
+        deleteDog({id: dogId});
+    }
 
     return (
         <div className={styles.leaderboard_container}>
@@ -60,7 +65,7 @@ export default function Leaderboard({close} : LeaderboardProps) {
                                         <b>{index + 1}</b>
                                         <DogProfile name={dog.name} img={dog.url}/>
                                     </div>
-                                    {openEdit && <Button><RemoveCircleOutlineIcon style={{color: 'red'}}/></Button>}
+                                    {openEdit && <Button onClick={() => handleDeleteDog(dog._id)}><RemoveCircleOutlineIcon style={{color: 'red'}}/></Button>}
                                 </div>
                             )
                         } else {

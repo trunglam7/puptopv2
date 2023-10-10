@@ -33,7 +33,10 @@ export default function Header() {
 
     return (
         <header className={styles.header}>
-            <h1 className={styles.app_name}>PupTop</h1>
+            <div>
+                <h1 className={styles.app_name}>PupTop</h1>
+                <p>This is a demo. Not all features are available.</p>
+            </div>
             <Button onClick={openMenu}><MenuIcon sx={{color:'white'}}/></Button>
             <Drawer
                 open={toggleMenu}

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styles from '../styles/adddogdialog.module.css'
 import TextField from '@mui/material/TextField';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import { Button } from '@mui/material';
+import { Backdrop, Button, CircularProgress } from '@mui/material';
 import PreviewDogCard from './PreviewDogCard';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
@@ -17,6 +17,7 @@ export default function AddDogDialog({close} : AddDogDialogProps) {
     const [name, setName] = useState('');
     const [imagePreview, setImagePreview] = useState('');
     const [image, setImage] = useState<File | null>(null);
+    const [submitting, setSubmitting] = useState(false);
     const { user } = useClerk();
 
     const generateUploadUrl = useMutation(api.dogs.generateUploadUrl);
@@ -32,19 +33,26 @@ export default function AddDogDialog({close} : AddDogDialogProps) {
     }
 
     const handleSubmit = async () => {
-        const postUrl = await generateUploadUrl();
-        const result = await fetch(postUrl, {
-            method: "POST",
-            headers: { "Content-Type": image!.type },
-            body: image,
-        });
-        
-        const {storageId} = await result.json();
+        try {
+            setSubmitting(true);
+            const postUrl = await generateUploadUrl();
+            const result = await fetch(postUrl, {
+                method: "POST",
+                headers: { "Content-Type": image!.type },
+                body: image,
+            });
+            
+            const {storageId} = await result.json();
 
-        await submitDog({storageId, author: user ? user?.id : '', name: name })
-        setImage(null);
-        setImagePreview('');
-        close();
+            await submitDog({storageId, author: user ? user?.id : '', name: name })
+        } catch (err) {
+            console.log("Unable to submit dog:", err);
+        } finally {
+            setImage(null);
+            setImagePreview('');
+            setSubmitting(false);
+            close();
+        }
     }
 
     return (
@@ -69,6 +77,12 @@ export default function AddDogDialog({close} : AddDogDialogProps) {
             {image && <PreviewDogCard name={name} img={imagePreview} />}
             <Button variant='contained' sx={{color: 'white', width: '100%'}} onClick={handleSubmit}>Submit</Button>
             <Button variant='outlined' sx={{width: '100%'}} onClick={close}>Cancel</Button>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={submitting}
+                >
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     )
 }
