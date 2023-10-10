@@ -17,10 +17,18 @@ export default function VotingPlatform() {
     const {user} = useClerk();
 
     const getUsers = useQuery(api.users.getUsers);
-    const usersVoteList = getUsers?.filter(x => x.userId === user?.id)[0].dogsVoted;
+    // const usersVoteList = getUsers ? getUsers?.filter(x => x.userId === user?.id)[0].dogsVoted : [];
+    const usersVoteList = getUsers ? 
+    (getUsers.find(x => x.userId === user?.id)?.dogsVoted || []) : 
+    [];
+
     const updatedDogsList = dogs?.filter(dog => !usersVoteList?.includes(dog._id));
 
-    const userConvexId = getUsers?.filter(x => x.userId === user?.id)[0]._id;
+    //const userConvexId = getUsers?.filter(x => x.userId === user?.id)[0]._id;
+
+    const userConvexId = getUsers && getUsers.length > 0 ?
+    (getUsers.find(x => x.userId === user?.id)?._id || null) :
+    null;
 
     //const [currDog, setCurrDog] = useState(0);
     const [swipeDirection, setSwipeDirection] = useState(0);

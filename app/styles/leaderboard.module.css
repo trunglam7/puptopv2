@@ -7,12 +7,18 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid lightgray;
+    background-color: white;
+    z-index: 1;
 }
 
-.global_leaderboard{
+.global_leaderboard, .personal_leaderboard{
     display: grid;
     gap: 1rem;
     padding: 1rem;
+    flex: 1;
 }
 
 .leaderboard_entries{
@@ -24,4 +30,21 @@
 .leaderboards{
     display: flex;
     justify-content: space-around;
+}
+
+.global_leaderboard{
+    border-right: 1px solid lightgray;
+}
+
+@media screen and (max-width: 550px) {
+    .leaderboards{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    .global_leaderboard{
+        border-right: none;
+        border-bottom: 1px solid lightgray;
+    }
 }
