@@ -49,3 +49,21 @@
         border-bottom: 1px solid lightgray;
     }
 }
+
+.first_place{
+    background-color: gold;
+    padding: 1rem;
+    border-radius: 40%;
+}
+
+.second_place{
+    background-color: silver;
+    padding: 1rem;
+    border-radius: 50%;
+}
+
+.third_place{
+    background-color: orangered;
+    padding: 1rem;
+    border-radius: 50%;
+}

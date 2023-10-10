@@ -17,6 +17,7 @@ export default function Leaderboard({close} : LeaderboardProps) {
     const {user} = useClerk();
     const sortedDogs = dogs?.sort((a, b) => b.score - a.score);
     const sortedPersonal = sortedDogs?.filter(dog => dog.author === user?.id);
+    const sortedGlobal = sortedDogs?.slice(0, 3);
 
     return (
         <div className={styles.leaderboard_container}>
@@ -28,9 +29,13 @@ export default function Leaderboard({close} : LeaderboardProps) {
             <div className={styles.leaderboards}>
                 <div className={styles.global_leaderboard}>
                     <h2>Global</h2>
-                    {sortedDogs?.map((dog, index) => (
+                    {sortedGlobal?.map((dog, index) => (
                         <div className={styles.leaderboard_entries} key={dog._id}>
-                            <b>{index + 1}</b>
+                            <b className={
+                                        index + 1 === 1 ? styles.first_place :
+                                        index + 1 === 2 ? styles.second_place :
+                                        styles.third_place}
+                            >{index + 1}</b>
                             <DogProfile key={dog._id} name={dog.name} img={dog.url}/>
                         </div>
                     ))}
