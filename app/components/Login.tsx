@@ -40,7 +40,7 @@ export default function Login({signIn} : LoginProps) {
             </div>
             <Dialog open={preview} onClose={handleClosePreview}>
                 <iframe src="https://drive.google.com/file/d/1yYamgjeuuXvcF5bLUYL6ImOAB0Dr4vNW/preview" 
-                    allow="autoplay">
+                    allow="autoplay" allowfullscreen>
                 </iframe>
             </Dialog>
         </>
