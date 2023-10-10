@@ -5,7 +5,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import DogProfile from './DogProfile'
-import { useClerk } from '@clerk/clerk-react';
 
 interface LeaderboardProps {
     close: () => void;
