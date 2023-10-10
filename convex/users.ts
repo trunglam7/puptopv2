@@ -35,4 +35,23 @@ export const updateUser = mutation({
     }
 })
 
+export const deleteUser = mutation({
+    args: {userId: v.string()},
+    handler: async (ctx, args) => {
+        const user = await ctx.db.query("users").filter((q) => q.eq(q.field("userId"), args.userId)).collect();
+        const dogs = await ctx.db.query("dogs").filter((q) => q.eq(q.field("author"), args.userId)).collect();
+        const dogStorageId = dogs.map(dog => dog.imgId);
+
+        await ctx.db.delete(user[0]._id);
+
+        for(let i = 0; i < dogs.length; i++) {
+            await ctx.db.delete(dogs[i]._id);
+        }
+        
+        for(let i = 0; i < dogStorageId.length; i++) {
+            await ctx.storage.delete(dogStorageId[i]);
+        }
+    }
+})
+
 

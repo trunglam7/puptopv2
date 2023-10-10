@@ -2,6 +2,8 @@ import { Button, Dialog, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import styles from '../styles/deleteaccount.module.css'
 import { useClerk } from '@clerk/clerk-react';
+import { useMutation } from 'convex/react';
+import { api } from '@/convex/_generated/api';
 
 interface DeleteAccountProps {
     open: boolean,
@@ -12,11 +14,15 @@ interface DeleteAccountProps {
 export default function DeleteAccount({open, close, user} : DeleteAccountProps) {
 
     const [username, setUsername] = useState('');
+    const deleteUser = useMutation(api.users.deleteUser);
     const { signOut } = useClerk();
 
     const handleDeleteAccount = () => {
-        user?.delete().then(() => signOut())
-            .catch((err : any) => console.log("Unable to delete account:", err));
+        const userId = user.id;
+        user?.delete().then(() => {
+            deleteUser({userId: userId});
+            signOut();
+        }).catch((err : any) => console.log("Unable to delete account:", err));
     }
 
     const handleCancelDelete = () => {
