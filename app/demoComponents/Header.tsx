@@ -27,10 +27,6 @@ export default function Header() {
         router.push('/');
     }
 
-    const handleDeleteAccount = () => {
-        setDeletePopup(true);
-    }
-
     const handleCloseDelete = () => {
         setDeletePopup(false);
     }
@@ -56,19 +52,12 @@ export default function Header() {
                                 <p>Log Out</p>
                             </div>
                         </Button>
-                        <Button onClick={handleDeleteAccount}>
-                            <div className={styles.menu_btn}>
-                                <PersonRemoveIcon />
-                                <p>Delete Account</p>
-                            </div>
-                        </Button>
                     </div>
                     <Button onClick={closeMenu}>
                         <CloseIcon />
                     </Button>
                 </div>
             </Drawer>
-            <DeleteAccount open={deletePopup} close={handleCloseDelete} />
         </header>
     )
 }

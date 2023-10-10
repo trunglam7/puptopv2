@@ -13,10 +13,8 @@ interface LeaderboardProps {
 
 export default function Leaderboard({close} : LeaderboardProps) {
 
-    const dogs = useQuery(api.dogs.getDogs);
-    const {user} = useClerk();
+    const dogs = useQuery(api.dogs.getDogsDemo);
     const sortedDogs = dogs?.sort((a, b) => b.score - a.score);
-    const sortedPersonal = sortedDogs?.filter(dog => dog.author === user?.id);
 
     return (
         <div className={styles.leaderboard_container}>
@@ -38,20 +36,12 @@ export default function Leaderboard({close} : LeaderboardProps) {
 
                 <div className={styles.personal_leaderboard}>
                     <h2>Personal</h2>
-                    {sortedPersonal?.length ? sortedDogs?.map((dog, index) => {
-
-                        if (dog.author === user?.id) {
-                            return (
-                                <div className={styles.leaderboard_entries} key={dog._id}>
-                                    <b>{index + 1}</b>
-                                    <DogProfile name={dog.name} img={dog.url}/>
-                                </div>
-                            )
-                        } else {
-                            return null;
-                        }
-
-                    }) : <p>You have no dogs</p>}
+                    {sortedDogs?.map((dog, index) => (
+                        <div className={styles.leaderboard_entries} key={dog._id}>
+                            <b>{index + 1}</b>
+                            <DogProfile key={dog._id} name={dog.name} img={dog.url}/>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
