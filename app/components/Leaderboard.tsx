@@ -38,12 +38,26 @@ export default function Leaderboard({close} : LeaderboardProps) {
 
                 <div className={styles.personal_leaderboard}>
                     <h2>Personal</h2>
-                    {sortedPersonal?.length ? sortedPersonal?.map((dog, index) => (
+                    {/* {sortedPersonal?.length ? sortedPersonal?.map((dog, index) => (
                         <div className={styles.leaderboard_entries} key={dog._id}>
                             <b>{index + 1}</b>
                             <DogProfile name={dog.name} img={dog.url}/>
                         </div>
-                    )) : <p>You have no dogs</p>}
+                    )) : <p>You have no dogs</p>} */}
+                    {sortedPersonal?.length ? sortedDogs?.map((dog, index) => {
+
+                        if (dog.author === user?.id) {
+                            return (
+                                <div className={styles.leaderboard_entries} key={dog._id}>
+                                    <b>{index + 1}</b>
+                                    <DogProfile name={dog.name} img={dog.url}/>
+                                </div>
+                            )
+                        } else {
+                            return null;
+                        }
+
+                    }) : <p>You have no dogs</p>}
                 </div>
             </div>
         </div>

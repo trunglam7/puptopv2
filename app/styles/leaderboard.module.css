@@ -15,7 +15,8 @@
 }
 
 .global_leaderboard, .personal_leaderboard{
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
     padding: 1rem;
     flex: 1;
