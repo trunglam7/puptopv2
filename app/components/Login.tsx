@@ -39,10 +39,9 @@ export default function Login({signIn} : LoginProps) {
                 </div>
             </div>
             <Dialog open={preview} onClose={handleClosePreview}>
-                <video controls>
-                    <source src="./pupTop_recording.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                </video>
+                <iframe src="https://drive.google.com/file/d/1yYamgjeuuXvcF5bLUYL6ImOAB0Dr4vNW/preview" 
+                    allow="autoplay">
+                </iframe>
             </Dialog>
         </>
         
