@@ -28,6 +28,13 @@
     gap: 1rem;
 }
 
+.leaderboard_entries_personal{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
 .leaderboards{
     display: flex;
     justify-content: space-around;
@@ -35,19 +42,6 @@
 
 .global_leaderboard{
     border-right: 1px solid lightgray;
-}
-
-@media screen and (max-width: 550px) {
-    .leaderboards{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-    }
-
-    .global_leaderboard{
-        border-right: none;
-        border-bottom: 1px solid lightgray;
-    }
 }
 
 .first_place{
@@ -66,4 +60,29 @@
     background-color: orangered;
     padding: 1rem;
     border-radius: 50%;
+}
+
+.left_side_personal{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.personal_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media screen and (max-width: 550px) {
+    .leaderboards{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    .global_leaderboard{
+        border-right: none;
+        border-bottom: 1px solid lightgray;
+    }
 }

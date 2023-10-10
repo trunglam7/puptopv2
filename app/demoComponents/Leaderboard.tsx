@@ -27,7 +27,11 @@ export default function Leaderboard({close} : LeaderboardProps) {
                     <h2>Global</h2>
                     {sortedDogs?.map((dog, index) => (
                         <div className={styles.leaderboard_entries} key={dog._id}>
-                            <b>{index + 1}</b>
+                            <b className={
+                                        index + 1 === 1 ? styles.first_place :
+                                        index + 1 === 2 ? styles.second_place :
+                                        styles.third_place}
+                            >{index + 1}</b>
                             <DogProfile key={dog._id} name={dog.name} img={dog.url}/>
                         </div>
                     ))}

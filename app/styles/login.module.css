@@ -4,6 +4,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    column-gap: 5rem;
+    padding: 1rem;
 }
 
 .hero_container{
@@ -56,4 +58,11 @@
     display: grid;
     gap: 1rem;
     text-align: center;
+}
+
+@media screen and (max-width: 525px) {
+    .login_container{
+        flex-direction: column;
+        row-gap: 1rem;
+    }
 }
