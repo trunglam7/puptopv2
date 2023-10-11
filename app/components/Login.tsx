@@ -12,7 +12,7 @@ interface LoginProps {
 
 export default function Login({signIn} : LoginProps) {
 
-    const [preview, setPreview] = useState(false);
+    const router = useRouter();
 
     const buttonSx = {
         color: 'white'
@@ -22,8 +22,8 @@ export default function Login({signIn} : LoginProps) {
         signIn();
     }
 
-    const handleClosePreview = () => {
-        setPreview(false);
+    const handleRouteDemo = () => {
+        router.push('/demo');
     }
 
     return (
@@ -35,14 +35,9 @@ export default function Login({signIn} : LoginProps) {
                 <div className={styles.login_side}>
                     <h1>PupTop</h1>
                     <Button sx={buttonSx} onClick={handleLogin} variant='contained'>Sign In or Sign Up</Button>
-                    <Button sx={buttonSx} variant='contained' onClick={() => setPreview(true)}>Demo</Button>
+                    <Button sx={buttonSx} variant='contained' onClick={handleRouteDemo}>Demo</Button>
                 </div>
             </div>
-            <Dialog open={preview} onClose={handleClosePreview}>
-                <iframe src="https://drive.google.com/file/d/1yYamgjeuuXvcF5bLUYL6ImOAB0Dr4vNW/preview" 
-                    allow="autoplay" allowFullScreen>
-                </iframe>
-            </Dialog>
         </>
         
     )

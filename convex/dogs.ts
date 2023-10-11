@@ -89,3 +89,14 @@ export const updateScoreDemo = mutation({
     await ctx.db.patch(id, {score: score });
   },
 });
+
+export const deleteDogDemo = mutation({
+  args: {id: v.id("dogs_demo")},
+  handler: async (ctx, args) => {
+    const dog = await ctx.db.get(args.id);
+    const imageId = dog.imgId;
+
+    await ctx.db.delete(args.id);
+    await ctx.storage.delete(imageId);
+  }
+})
